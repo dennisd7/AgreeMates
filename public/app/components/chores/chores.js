@@ -8,6 +8,14 @@ angular.module('main.chores').controller('ChoresCtrl',
 
 function ($scope, $http, $timeout) {
 
+    $scope.list1 = ["one", "two", "three"];
+    $scope.list2 = ["A", "B", "C"];
+    $scope.sortableOptions = {
+        connectWith: '.connectedList',
+        placeholder: 'placeholder',
+        dropOnEmpty: true
+    };
+
 
 
 
