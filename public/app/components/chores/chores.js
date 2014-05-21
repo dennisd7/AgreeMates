@@ -2,11 +2,15 @@
 
 'use strict';
 
-angular.module('main.chores', ['ui.bootstrap']);
+angular.module('main.chores', ['ui.bootstrap', 'ui.sortable']);
 
 angular.module('main.chores').controller('ChoresCtrl',
 
 function ($scope, $http, $timeout) {
+
+
+
+
 
   var alertLength = 4000;
 
