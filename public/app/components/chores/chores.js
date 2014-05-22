@@ -16,6 +16,40 @@ function ($scope, $http, $timeout) {
         return $scope.responsibleList.length == 0;
     };
 
+    $scope.users_at_least_two = function() {
+        console.log($scope.responsibleList.length);
+        if($scope.responsibleList.length < 2 || parseInt($scope.chore.interval) == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    };
+
+    $scope.users_and_rotating = function()
+    {
+        if($scope.responsibleList.length > 1 && $scope.chore.rotating == true)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    };
+
+    $scope.populate_rotation = function(){
+        $scope.rotation_number = [];
+        for(var i = 1; i < $scope.responsibleList.length; i++)
+        {
+            $scope.rotation_number[(i - 1)] = i;
+        }
+    };
+
     $scope.menuList = {};
     $scope.responsibleList = [];
     $scope.sortableOptions = {
@@ -34,6 +68,8 @@ function ($scope, $http, $timeout) {
     $scope.chores = [];
     $scope.weekly = [];
     $scope.users = [];
+
+    $scope.rotation_number = [];
 
   function setModal(interval) {
     if (interval == 0) {
