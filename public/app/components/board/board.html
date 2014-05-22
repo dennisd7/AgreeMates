@@ -22,19 +22,32 @@
     </li>
   	<li data-ng-repeat="message in messages" class="list-group-item clearfix message">
   		<div>
-  		  <h3 class="message-subject">{{message.subject}} <br><small>Posted by {{message.author}} - {{format(message.date)}}</small></h3>
+  		  <h3 class="message-subject">{{message.subject}} 
+  		  	<span ng-show="user.id==message.user_id" ng-click="deleteMessage(message.id, $index)" class="pull-right glyphicon glyphicon-remove"></span>
+  		  	<br><small>Posted by {{message.author}} - {{format(message.date)}}</small>
+  		  </h3>
   		</div>
-      <div>
+     	<div ng-show="(!message.edit || user.id!=message.user_id)" ng-click="message.edit=true">
   			{{message.body}}
   		</div>
+  		<div ng-show="!(!message.edit || user.id!=message.user_id)" class="edit">
+ 				<textarea class="form-control" ng-model="message.body" placeholder="Message" required></textarea><br>
+ 				<button type="submit" ng-show="!message.body==''" class="btn btn-success pull-right" ng-click="updateMessage(message.id, $index)">Update Message</button><br>
+ 		</div>
   		<br>
-  		<ul ng-show="true" class="list-group comments">
-  			<li data-ng-repeat="comment in message.comments" class="list-group-item comment">
-          <h4 class="comment-body"><small>Posted by {{comment.author}} - {{format(message.date)}}</small></h4>
-          {{comment.body}}
-        </li>
+  		<div ng-click="message.showComments = true" ng-hide="message.showComments || message.comments.length == 0">
+  			<h5><b>Show comments</b></h5>
+  		</div>
+  		<ul class="list-group comments">
+  			<li ng-show="message.showComments" ng-repeat="comment in message.comments" class="list-group-item comment">
+          		<h4 class="comment-body">
+          			<small>Posted by {{comment.author}} - {{format(message.date)}}</small>
+          			<span ng-show="user.id==comment.user_id" ng-click="deleteComment(comment.id, message.id, $index, $parent.$index)" class="pull-right glyphicon glyphicon-remove"></span>
+          		</h4>
+          		{{comment.body}}
+        	</li>
   			<li class="list-group-item comment clearfix add-comment-box">
-  				<form ng-submit="(addComment($index))" role="form">
+  				<form ng-submit="addComment($index)" role="form">
  				   <input type="text" class="form-control" ng-model="message.newComment.body" placeholder="Comment" required>
           </form>
         </li>

@@ -123,7 +123,7 @@ CREATE TABLE bills (
     id integer NOT NULL,
     name character varying(255),
     createdate timestamp,
-    duedate timestamp,
+    duedate date,
     "interval" integer,
     paid boolean,
     amount numeric,
@@ -186,7 +186,7 @@ CREATE TABLE chores (
     id integer NOT NULL,
     name character varying(255),
     createdate timestamp,
-    duedate timestamp,
+    duedate date,
     "interval" integer,
     completed boolean,
     reocurring_id integer NOT NULL,
@@ -887,12 +887,14 @@ ALTER TABLE ONLY users_chores
 ALTER TABLE ONLY users_chores
     ADD CONSTRAINT users_chores_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
+
+---invitation tables
+
 CREATE TABLE invitations (
   id integer NOT NULL,
   email character varying(255) NOT NULL,
   apartment_id integer NOT NULL
 );
-
 
 CREATE SEQUENCE invitations_id_seq
   START WITH 1
@@ -909,8 +911,27 @@ ALTER TABLE ONLY invitations
 ALTER TABLE ONLY invitations
     ADD CONSTRAINT invitations_pkey PRIMARY KEY (id);
 
--- Completed on 2014-05-05 13:48:19
+--history tables
 
---
--- PostgreSQL database dump complete
---
+CREATE TABLE history (
+  id integer NOT NULL,
+  date timestamp NOT NULL,
+  history_string character varying(255) NOT NULL,
+  apartment_id integer NOT NULL
+);
+
+
+CREATE SEQUENCE history_id_seq
+  START WITH 1
+  INCREMENT BY 1
+  NO MINVALUE
+  NO MAXVALUE
+  CACHE 1;
+
+ALTER SEQUENCE history_id_seq OWNED BY history.id;
+
+ALTER TABLE ONLY history
+  ALTER COLUMN id SET DEFAULT nextval('history_id_seq'::regclass);
+
+ALTER TABLE ONLY history
+    ADD CONSTRAINT history_pkey PRIMARY KEY (id);

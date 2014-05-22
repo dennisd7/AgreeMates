@@ -42,6 +42,7 @@ var app = angular.module('main',
     'main.profile',
     'main.nav',
     'main.apartment',
+    'main.history',
     'main.invitations',
     'LocalStorageModule',
     'ngRoute'
@@ -80,6 +81,11 @@ app.config(function($routeProvider) {
     templateUrl: 'components/profile/profile.html',
     module: 'main.profile',
     controller: 'ProfileCtrl'
+  }).
+    when('/history', {
+    templateUrl: 'components/history/history.html',
+    module: 'main.history',
+    controller: 'HistoryCtrl'
   }).
     when('/invitations/:invite', {
     module: 'main.invitations',

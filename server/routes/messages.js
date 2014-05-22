@@ -24,7 +24,8 @@ function getMessages(req, res) {
     .select('messages.id as messageId', 'messages.subject', 'messages.body',
             'author.first_name as authorName', 'messages.date as messageDate',
             'users.first_name as commentAuthor', 'comments.id as commentId',
-            'comments.body as commentBody', 'comments.date as commentDate')
+            'comments.body as commentBody', 'comments.date as commentDate', 
+            'messages.user_id as user_id', 'comments.user_id as comment_user_id')
     .orderBy('messageId', 'desc')
     .then(function(rows) {
       var messages = [];
@@ -36,7 +37,7 @@ function getMessages(req, res) {
 
       // set lastBillId to invalid ID so algorithm will owrk
       var lastMessageId = -1;
-      var subject, text, author, date;
+      var subject, text, author, date, user_id;
       for (var i = 0; i < rows.length; i++) {
 
         // If message_id is different than lastMessageId then
@@ -51,7 +52,8 @@ function getMessages(req, res) {
               body: text,
               author: author,
               date: date,
-              comments: comments
+              comments: comments,
+              user_id: user_id
             });
           }
           // empty comments since last message is done and set
@@ -62,13 +64,15 @@ function getMessages(req, res) {
           text = rows[i].body;
           author = rows[i].authorName;
           date = rows[i].messageDate;
+          user_id = rows[i].user_id;
         }
         if (rows[i].commentId !== null) {
           comments.push({
             id: rows[i].commentId,
             author: rows[i].commentAuthor,
             body: rows[i].commentBody,
-            date: rows[i].commentDate
+            date: rows[i].commentDate,
+            user_id: rows[i].comment_user_id
           });
         }
       }
@@ -79,7 +83,8 @@ function getMessages(req, res) {
         body: text,
         author: author,
         date: date,
-        comments: comments
+        comments: comments,
+        user_id: user_id
       });
       res.json({messages: messages});
     }).otherwise(function() {

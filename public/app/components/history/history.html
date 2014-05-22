@@ -1,0 +1,15 @@
+<!-- view for profile -->
+<div class="col-lg-12">
+  <h1>History</h1>
+  <hr>
+
+  <dl data-ng-repeat="item in history" class="dl-horizontal">
+    <dt class="history-date">{{format(item.date)}}</dt>
+    <dd class="history-string">{{item.history_string}} {{item.id}}</dd>
+  </dl>
+
+  <button type="button" class="btn btn-primary" ng-click="loadMore()">Load More</button>
+
+  <p id="nothing-loaded-message" ng-show="showNothingMoreMessage()">Nothing more to load</p>
+
+</div>

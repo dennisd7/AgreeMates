@@ -5,6 +5,7 @@
 
 var SupplyModel = require('../models/supply').model;
 var SupplyCollection = require('../models/supply').collection;
+var HistoryModel = require('../models/history').model;
 
 // Gets all supplies for the user's apartment
 function getSupplies(req, res) {
@@ -63,8 +64,20 @@ function addSupply(req, res) {
     .save()
     .then(function(model) {
       var supply = model.attributes;
+
+      var historyString = req.user.attributes.first_name + ' ' +
+        req.user.attributes.last_name + ' added Supply "' +
+        name.trim() + '"';
+
+      new HistoryModel({apartment_id: apartmentId,
+        history_string: historyString, date: new Date()})
+        .save()
+        .then(function() {})
+        .otherwise(function(error) {console.log(error)});
+
       res.json({id: supply.id, name: supply.name, status: supply.status});
-    }).otherwise(function() {
+    }).otherwise(function(error) {
+      console.log(error);
       res.json(503, {error: 'Database error.'});
     });
 }

@@ -22,6 +22,18 @@ a:hover {
   margin-top: 16px;
 }
 
+.history-date {
+  text-align: left !important;
+}
+
+.history-string {
+  margin-left: 0 !important;
+}
+
+#nothing-loaded-message {
+  margin-top: 15px;
+}
+
 .navbar-right li a {
   color: #fff !important;
   font-size: 21px;
