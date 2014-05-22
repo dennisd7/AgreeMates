@@ -13,7 +13,7 @@
 	<hr>
 
 	<div id="chores-add-button">
-		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-success" ng-click="cancel(); chore.interval = 0; setList(); reset_responsibleList();">Add Chore</button>
+		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-success" ng-click="cancel(); chore.interval = 0; chore.rotating = 0; setList(); reset_responsibleList();">Add Chore</button>
 	</div>
 
   <!-- Add chores modal -->
@@ -27,23 +27,43 @@
         </div>
 
         <div class="modal-body">
-        	<form role="form">
+        	 <form class="form-horizontal" role="form">
           	<div class="form-group">
-              <label for="xone"> Chore Name </label>
+              <label class="col-sm-3 control-label" for="xone"> Name </label>
+              <div class="col-sm-5">
               <input type="text" id="xone" ng-model="chore.name" class="form-control" placeholder="">
+              </div>
             </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="xtwo">Frequency</label>
+              <div class="col-sm-5">
+                  <input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">&nbsp;One-Time 
+                  <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">&nbsp;Weekly
+                </div>
+              </div>
 
-            <table>
+              <div class="form-group">
+                <label class ="col-sm-3 control-label" for="xfour">{{setModal(chore.interval)}} Date</label>
+              
+                <div class = "col-sm-5">
+                <input type="date" class="form-control" id="xfour" name="bday" ng-model="chore.duedate">
+                </div>
+              </div>
+                <div class="form-group">
+                <label class="col-sm-3 control-label" for="xfive">Rotating Responsibility?</label>
+                <div class="col-sm-5">
+                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="0"> Yes
+                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="1"> No
+
+                  </div>
+                </div>
+
+              <table>
               <tr>
-                <th width="20%"><label for="xtwo">Frequency</label><br></th>
-                <th ><label>People in Apartment</label></th>
-                <th ><label>Persons Responsible For Chore</label></th>
+                <th><label>People in Apartment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></th>
+                <th><label>Persons Responsible For Chore</label></th>
               </tr>
               <tr>
-                <td>
-                	<input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">One-Time<br>
-                  <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">Weekly<br><br>
-                </td>
                 <td class = "testing">
 
                   <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList">
@@ -52,9 +72,7 @@
                   </div>
 
                   <div ng-show="menuList.length==0">No One Left</div>
-                  </ul>  
-
-                  
+                  </ul>    
                 </td>
                   
                 <td class = "testing">
@@ -66,33 +84,11 @@
                   </ul>
                 </td>
               </tr>
-              <tr>
-                <td>
-                <div>
-                <label for="xfour">{{setModal(chore.interval)}} Date</label><br>
-                <input type="date" id="xfour" name="bday" ng-model="chore.duedate">
-                </div>
-
-                </td>
-                <td colspan = "2" align ="center">
-                  <div>
-                    <label for="xfive">Rotating Responsibility?</label> 
-                    <br>
-                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="true"> Yes
-                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="false"> No
-
-                  </div>
-
-                </td>
-            </tr>
-           </table>
-           
-            
-            
+              
+              
+              </table>
           </form>
 				</div>
-        <br>
-        <br>
         <div class="modal-footer">
         	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addChore(chore)">Add</button>
