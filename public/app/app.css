@@ -244,5 +244,9 @@ html, body {
 }
 
 .minimalList {
-  min-height: 100px;
+  min-height: 35px;
+}
+
+#chores_add_modal {
+  
 }

@@ -24,18 +24,18 @@
         </div>
 
         <div class="modal-body">
-        	 <form class="form-horizontal" role="form">
+        	<form class="form-horizontal" role="form">
           	<div class="form-group">
-              <label class="col-sm-3 control-label" for="xone"> Name </label>
-              <div class="col-sm-5">
-              <input type="text" id="xone" ng-model="chore.name" class="form-control" placeholder="">
-              </div>
+            <label class="col-sm-3 control-label" for="xone"> Name </label>
+            <div class="col-sm-5">
+            <input type="text" id="xone" ng-model="chore.name" class="form-control" placeholder="">
+            </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label" for="xtwo">Frequency</label>
-              <div class="col-sm-5">
-                  <input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">&nbsp;One-Time 
-                  <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">&nbsp;Weekly
+                <label class="col-sm-3 control-label" for="xtwo">Frequency</label>
+                <div class="col-sm-5">
+                    <input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">&nbsp;One-Time 
+                    <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">&nbsp;Weekly
                 </div>
               </div>
 
@@ -55,40 +55,42 @@
                   </div>
                 </div>
 
-              <table>
-              <tr>
-                <th><label>People in Apartment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></th>
-                <th><label>Persons Responsible For Chore</label></th>
-              </tr>
-              <tr>
+                
+
+
+                <table>
+                <tr>
+                <th><label class="">People in Apartment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></th>
+                <th><label class="">Persons Responsible For Chore</label></th>
+                </tr>
+                <tr>
                 <td class = "testing">
 
-                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList" 
-                  ng-class="{'minimalList':menuEmpty()}">
-                  <div ng-repeat="user in menuList" class="item">
-                  <span>{{user.first_name}}</span>
-                  </div>
-                  </ul>
+                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList" 
+                    ng-class="{'minimalList':menuEmpty()}">
+                    <div ng-repeat="user in menuList" class="item">
+                    <span>{{user.first_name}}</span>
+                    </div>
+                    </ul>
                   <!--<div ng-show="menuList.length==0">No One Left</div>-->    
                 </td>
                   
                 <td class = "testing">
-                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
-                  <div ng-repeat="responsible in responsibleList" class="item">
+                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
+                    <div ng-repeat="responsible in responsibleList" class="item">
                     <span>{{responsible.first_name}}</span>
-                  </div>  
-                  </ul>
-                  <!--<div ng-show="responsibleList.length==0">No One Added</div>-->
+                    </div>  
+                    </ul>
                 </td>
-              </tr>
-              </table>
-                  <!--<div>list1: {{menuList }}</div>-->
-                  <!--<div>list2: {{responsibleList }}</div>-->
-          </form>
-				</div>
+                </tr>
+                </table>
+                <!--<div>list1: {{menuList }}</div>-->
+                <!--<div>list2: {{responsibleList }}</div>-->
+                </form>
+			</div>
         <div class="modal-footer">
-        	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addChore(chore)">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addChore(chore)">Add</button>
         </div>
 
       </div>
