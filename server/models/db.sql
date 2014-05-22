@@ -191,7 +191,9 @@ CREATE TABLE chores (
     completed boolean,
     reocurring_id integer NOT NULL,
     user_id integer,
-    apartment_id integer
+    apartment_id integer,
+	rotating boolean,
+	number_in_rotation int
 );
 
 
