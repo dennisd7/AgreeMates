@@ -1,21 +1,3 @@
-<div style="float:left; margin:5px;">
-        <h3>list1</h3>
-    <ul ui:sortable="sortableOptions" class="connectedList" ng:model="list1">
-        <li ng:repeat="item in list1" class="item">{{item}}</li>
-        <li ng-show="list1.length==0">&nbsp;</li>
-    </ul>
-    </div>
-    <div style="float:left;margin:5px;">
-    <h3>list2<h3>
-    <ul ui:sortable="sortableOptions" class="connectedList" ng:model="list2">
-        <li ng:repeat="item in list2" class="item">{{item}}</li>
-         <li ng-show="list2.length==0">&nbsp;</li>
-    </ul>
-    </div>
-        <div style="clear:both;"></div>
-    <hr />
-    <div>list1: {{list1 | json}}</div>
-    <div>list2: {{list2 | json}}</div>
 
  
 
@@ -31,7 +13,7 @@
 	<hr>
 
 	<div id="chores-add-button">
-		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-success" ng-click="cancel(); chore.interval = 0">Add Chore</button>
+		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-success" ng-click="cancel(); chore.interval = 0; setList(); reset_responsibleList();">Add Chore</button>
 	</div>
 
   <!-- Add chores modal -->
@@ -53,35 +35,64 @@
 
             <table>
               <tr>
-                <th width= "50%"><label for="xtwo">Frequency</label><br></th>
-                <th><label>Persons Responsible</label></th>
+                <th width="20%"><label for="xtwo">Frequency</label><br></th>
+                <th ><label>People in Apartment</label></th>
+                <th ><label>Persons Responsible For Chore</label></th>
               </tr>
               <tr>
                 <td>
                 	<input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">One-Time<br>
                   <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">Weekly<br><br>
                 </td>
-                <td>
-                  <div data-ng-repeat="user in users">
-                    <label>
-                    	<input type="checkbox" id="xthree" ng-model="user.isChecked"/>  <span>{{user.first_name}}</span>
-                    </label>
-                    <br>
+                <td class = "testing">
+
+                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList">
+                  <div ng-repeat="user in menuList" class="item">
+                  <span>{{user.first_name}}</span>
                   </div>
-									<br>
-									<input type="checkbox" ng-model="chore.rotating"> Rotating Chore?
+
+                  <div ng-show="menuList.length==0">No One Left</div>
+                  </ul>  
+
+                  
+                </td>
+                  
+                <td class = "testing">
+                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList">
+                  <div ng-repeat="responsible in responsibleList" class="item">
+                    <span>{{responsible.first_name}}</span>
+                  </div>  
+                  <div ng-show="responsibleList.length==0">No One Added</div>
+                  </ul>
                 </td>
               </tr>
-            </table>
+              <tr>
+                <td>
+                <div>
+                <label for="xfour">{{setModal(chore.interval)}} Date</label><br>
+                <input type="date" id="xfour" name="bday" ng-model="chore.duedate">
+                </div>
 
-            <div class="form-group">
-            	<label for="xfour">{{setModal(chore.interval)}} Date</label><br>
-              <input type="date" id="xfour" name="bday" ng-model="chore.duedate">
-            </div>
+                </td>
+                <td colspan = "2" align ="center">
+                  <div>
+                    <label for="xfive">Rotating Responsibility?</label> 
+                    <br>
+                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="true"> Yes
+                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" value="false"> No
 
-					</form>
+                  </div>
+
+                </td>
+            </tr>
+           </table>
+           
+            
+            
+          </form>
 				</div>
-
+        <br>
+        <br>
         <div class="modal-footer">
         	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addChore(chore)">Add</button>
@@ -110,7 +121,7 @@
 						</div>
 						<table>
 							<tr>
-								<th width="50%"><label for="xtwo">Frequency</label><br></th>
+								<th ><label for="xtwo">Frequency</label><br></th>
 								<th><label>Persons Responsible</label></th>
 							</tr>
 							<tr>
@@ -152,7 +163,8 @@
  			 <th class="text-center">Responsible</th>
  			 <th class="text-center">Frequency</th>
  			 <th class="text-center">Due</th>
-			  <th class="text-center">Delete</th>
+       <th class="text-center">Done?</th>
+			 <th class="text-center">Delete</th>
  		 </tr>
       <tr data-ng-repeat ="chore in chores" >
     		<td data-toggle= "modal" data-target="#chores_edit_modal" ng-click="setChore($index)">
@@ -169,6 +181,9 @@
  			 <td data-toggle= "modal" data-target="#chores_edit_modal" ng-click="setChore($index)">
  				 <span class="due date">{{format(chore.duedate)}}</span>
  			 </td>
+       <td>
+        <input type="checkbox" ng-click="doChore(chore.id, $index)" ng-checked="isDone(chore.id, $index)">
+       </td>
  			 <td width>
  			   <i class="ion-close-circled delete-icon" ng-click="deleteChore(chore.id, $index)"></i>
 				</td>

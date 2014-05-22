@@ -206,13 +206,23 @@ html, body {
 
 /*classes for rotating responsiblity chores input UI*/
 .item, .placeholder {
-    padding: 2px;
-    width: 50px;
-    height: 20px;
-    border: 1px solid #333;
-    background: #EEE;
+  vertical-align: top;
+  text-align: left;
+  font-weight: 700;
 }
 
 .placeholder {
+  text-align: left;
     background: #AEF;
+}
+
+.testing {
+    vertical-align: top;
+  text-align: left;
+}
+
+#right-align {
+  position:relative;
+    float:right;
+
 }

@@ -11,6 +11,7 @@
     "angular-local-storage": "~0.0.3",
     "momentjs": "~2.6.0",
     "angular-ui-sortable": "~0.12.6",
-    "jquery-ui": "~1.10.4"
+    "jquery-ui": "~1.10.4",
+    "jqueryui-touch-punch": "*"
   }
 }

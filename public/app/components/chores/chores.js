@@ -8,10 +8,10 @@ angular.module('main.chores').controller('ChoresCtrl',
 
 function ($scope, $http, $timeout) {
 
-    $scope.list1 = ["one", "two", "three"];
-    $scope.list2 = ["A", "B", "C"];
+    $scope.menuList = {};
+    $scope.responsibleList = [];
     $scope.sortableOptions = {
-        connectWith: '.connectedList',
+        connectWith: '.connectedList1',
         placeholder: 'placeholder',
         dropOnEmpty: true
     };
@@ -60,43 +60,35 @@ function ($scope, $http, $timeout) {
     chore.interval = parseInt(chore.interval);
     chore.rotating = false;
     var any = {name: '', id: 0};
-    var at_least_one_user = 0;
+    //var at_least_one_user = 0;
 
     // checks to see that at lesat one user is checked
-    for (var x = 0; x < $scope.users.length; x++) {
-      if ($scope.users[x].isChecked) {
-        at_least_one_user = at_least_one_user + 1;
-      }
-    }
 
     if (!chore.duedate) {
       showErr("Please select a valid date.");
     } else {
-      if (at_least_one_user == 0) {
+        console.log(at_least_one_user());
+        if (!at_least_one_user()) {
         showErr("Please select at least one roommate.");
-      } else {
-        for (var i = 0; i < $scope.users.length; i++) {
-          if ($scope.users[i].isChecked) {
-            any.id = $scope.users[i].id;
+        } 
+        else {
+            for (var i = 0; i < $scope.responsibleList.length; i++)
+            {
+          
+            any.id = $scope.responsibleList[i].id;
             chore.roommates.push(any.id);
-          }
-        }
-
-      	$http.post('/chores', chore)
-          .success(function(data) {
+            }
+            console.log(chore);
+            $http.post('/chores', chore)
+            .success(function(data) {
             chore = data.chore;
             chore.users = [];
             chore.users = data.users;
 
-            for (var i = 0; i < chore.users.length; i++) {
-              chore.users[i].isChecked = true;
-            }
-
             $scope.chores.push(chore);
 
             showSucc("Chore "+chore.name+" successfully added!");
-        })
-        .error(function() {});
+            }).error(function() {});
       }
     }
 
@@ -212,12 +204,15 @@ function ($scope, $http, $timeout) {
   }
 
   function at_least_one_user() {
-    for (var i = 0; i < $scope.users.length; i++) {
-      if ($scope.users[i].isChecked) {
+    console.log($scope.responsibleList);
+      if ($scope.responsibleList.length == 0) 
+      {
+        return false;
+      }
+      else
+      {
         return true;
       }
-    }
-    return false;
   }
 
   $scope.convertdate = function(date) {
@@ -256,5 +251,12 @@ function ($scope, $http, $timeout) {
   $scope.format = function(date) {
     return moment(date).format('MMMM Do, YYYY');
   };
+
+  $scope.setList = function() {
+    $scope.menuList = angular.copy ($scope.users);
+  }
+  $scope.reset_responsibleList = function(){
+    $scope.responsibleList = [];
+  }
 
 });
