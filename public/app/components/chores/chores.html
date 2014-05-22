@@ -1,6 +1,3 @@
-
- 
-
 <!-- Chores view -->
 
 <div class="col-lg-12">
@@ -13,7 +10,7 @@
 	<hr>
 
 	<div id="chores-add-button">
-		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-success" ng-click="cancel(); chore.interval = 0; chore.rotating = 0; setList(); reset_responsibleList();">Add Chore</button>
+		<button type="button" data-toggle="modal" data-target="#chores_add_modal" class="btn btn-primary" ng-click="cancel(); chore.interval = 0; chore.rotating = 0; setList(); reset_responsibleList();">Add Chore</button>
 	</div>
 
   <!-- Add chores modal -->
@@ -66,27 +63,27 @@
               <tr>
                 <td class = "testing">
 
-                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList">
+                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList" 
+                  ng-class="{'minimalList':menuEmpty()}">
                   <div ng-repeat="user in menuList" class="item">
                   <span>{{user.first_name}}</span>
                   </div>
-
-                  <div ng-show="menuList.length==0">No One Left</div>
-                  </ul>    
+                  </ul>
+                  <!--<div ng-show="menuList.length==0">No One Left</div>-->    
                 </td>
                   
                 <td class = "testing">
-                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList">
+                  <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
                   <div ng-repeat="responsible in responsibleList" class="item">
                     <span>{{responsible.first_name}}</span>
                   </div>  
-                  <div ng-show="responsibleList.length==0">No One Added</div>
                   </ul>
+                  <!--<div ng-show="responsibleList.length==0">No One Added</div>-->
                 </td>
               </tr>
-              
-              
               </table>
+                  <!--<div>list1: {{menuList }}</div>-->
+                  <!--<div>list2: {{responsibleList }}</div>-->
           </form>
 				</div>
         <div class="modal-footer">
@@ -150,6 +147,15 @@
       </div>
     </div>
 	</div>
+
+
+  <!-- add a filter to table later on -->
+  <div class="clearfix" id="chores-filter">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" ng-click="setTable('unresolved')" ng-class="{ 'active' : table === 'unresolved' }">Uncompleted</button>      
+      <button type="button" class="btn btn-default" ng-click="setTable('resolved')" ng-class="{ 'active' : table === 'resolved' }">Completed</button>
+    </div>
+  </div>
 
 	<!-- Chores table -->
 	<table class="table table-striped table-hover text-center">

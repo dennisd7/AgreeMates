@@ -8,6 +8,14 @@ angular.module('main.chores').controller('ChoresCtrl',
 
 function ($scope, $http, $timeout) {
 
+    $scope.menuEmpty = function(){
+        return $scope.menuList.length == 0;
+    };
+
+    $scope.responsibleEmpty = function() {
+        return $scope.responsibleList.length == 0;
+    };
+
     $scope.menuList = {};
     $scope.responsibleList = [];
     $scope.sortableOptions = {
@@ -15,20 +23,17 @@ function ($scope, $http, $timeout) {
         placeholder: 'placeholder',
         dropOnEmpty: true
     };
+    $scope.table = '';
 
+    var alertLength = 4000;
 
-
-
-
-  var alertLength = 4000;
-
-  $scope.gindex = 0;
-  $scope.modal_message = {starts: "Start", due: "Due"};
-  $scope.modal_msg = $scope.modal_message.due;
-  $scope.chore = {name: '', rotating: false};
-  $scope.chores = [];
-  $scope.weekly = [];
-  $scope.users = [];
+    $scope.gindex = 0;
+    $scope.modal_message = {starts: "Start", due: "Due"};
+    $scope.modal_msg = $scope.modal_message.due;
+    $scope.chore = {name: '', rotating: false};
+    $scope.chores = [];
+    $scope.weekly = [];
+    $scope.users = [];
 
   function setModal(interval) {
     if (interval == 0) {
@@ -258,5 +263,17 @@ function ($scope, $http, $timeout) {
   $scope.reset_responsibleList = function(){
     $scope.responsibleList = [];
   }
+
+    //select unresolved bills or resolved bills
+    $scope.setTable = function(table) {
+        if (table == 'resolved') {
+            
+        $scope.table = 'resolved';
+        } else {
+            
+        $scope.table = 'unresolved';
+        }       
+    };
+
 
 });

@@ -191,6 +191,10 @@ html, body {
   margin-bottom: 15px;
 }
 
+#chores-filter {
+  margin-bottom: 15px;
+  }  
+
 .supply-form-buttons {
   float: left;
   margin-left: 10px;
@@ -237,4 +241,8 @@ html, body {
   position:relative;
     float:right;
 
+}
+
+.minimalList {
+  min-height: 100px;
 }
