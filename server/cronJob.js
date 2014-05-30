@@ -6,12 +6,9 @@ var CronJob = require('cron').CronJob;
 var Bookshelf = require('bookshelf');
 var ChoreDao = require('./routes/choreDao');
 
-var choreUpdateor = new CronJob('0 59 23 * * *', function(){
+var choreUpdator = new CronJob('0 59 23 * * *', function(){
 	var startDate = new Date();
-	startDate.setHours(0);
-	startDate.setMinutes(0);
-	startDate.setSeconds(0);
-	startDate.setMilliseconds(0);
+	startDate.setHours(0,0,0,0);
 	var endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 	endDate.setDate(endDate.getDate()+1);
 	// Get all chores with duedate on same day
@@ -54,6 +51,7 @@ var choreUpdateor = new CronJob('0 59 23 * * *', function(){
 	});
   }, function () {
     // This function is executed when the job stops
+	console.log('Chore Cron Job: Cron complete')
   },
   true, /* Start the job right now */
   null /* Time zone of this job. */
@@ -64,4 +62,4 @@ var choreUpdateor = new CronJob('0 59 23 * * *', function(){
 		return dat.setDate(dat.getDate() + days);
 	}
 
-module.exports = choreUpdateor;
+module.exports = choreUpdator;
