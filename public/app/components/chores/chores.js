@@ -431,6 +431,10 @@ function ($scope, $http, $timeout) {
       }
       else
       {
+        if($scope.loaded && $scope.chores_completed.length == 0 && $scope.table == 'resolved')
+        {
+            return true;
+        }
         return false;
       }
     };
