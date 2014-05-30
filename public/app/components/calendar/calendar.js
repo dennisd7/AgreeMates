@@ -19,6 +19,11 @@ angular.module('main.calendar').controller('CalendarCtrl',
     $scope.userFirstName = {};
     $scope.userLastName = {};
     $scope.daysinmonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    //global variables for bills
+    $scope.unresolvedBills;
+    $scope.bills;
+
     //variable for events
     $scope.events = [];
 
@@ -33,8 +38,8 @@ angular.module('main.calendar').controller('CalendarCtrl',
         height: 450,
         editable: true,
         header:{
-          left: 'title',
-          center: '',
+          left: '',
+          center: 'title',
           right: 'today prev,next'
         },
         eventClick: $scope.alertOnEventClick
@@ -89,8 +94,8 @@ angular.module('main.calendar').controller('CalendarCtrl',
         }
         $scope.chores = $scope.chores_uncompleted;
 
-        var date = new Date($scope.chores[0].duedate);
-        console.log(date);
+        //var date = new Date($scope.chores[0].duedate);
+        //console.log(date);
 
         for(var x = 0; x < $scope.chores.length; x++)
         {
@@ -105,6 +110,27 @@ angular.module('main.calendar').controller('CalendarCtrl',
         $scope.table = 'unresolved';
         console.log(error);
     });
+
+    //get all unresolved bills and set them to default
+    $http.get('/bills', {params: {type: 'unresolved'}}).
+    success(function(data) {
+    $scope.unresolvedBills = data.bills;
+    $scope.bills = $scope.unresolvedBills;
+
+    for(var x = 0; x < $scope.chores.length; x++)
+        {
+        $scope.events.push(bill_to_event($scope.bills[x]));
+
+        }
+        $('#mycalendar').fullCalendar( 'rerenderEvents' );
+        $scope.loaded = true;
+
+    }).
+    error(function(data){
+        showErr(data.error);
+    });
+
+
 
     var currentView = "month";
     
@@ -170,6 +196,7 @@ angular.module('main.calendar').controller('CalendarCtrl',
     // $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
     //    $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
     // };
+
     /* add and removes an event source of choice */
     // $scope.addRemoveEventSource = function(sources,source) {
     //   var canAdd = 0;
@@ -316,6 +343,42 @@ angular.module('main.calendar').controller('CalendarCtrl',
 
     function chore_to_responsible_list(chore)
     {
+
+    }
+
+    function bill_to_event(bill)
+    {
+        var a_event = {};
+        var date = new Date(bill.dueDate);
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var payment_index =  arrayObjectIndexOf(bill.payments, $scope.userId, "userId");
+        if(payment_index === -1)
+        {
+            console.log("b");
+        }
+        else
+        {
+            var amount = bill.payments[payment_index].amount;
+            var paid = bill.payments[payment_index].paid;
+            if ((amount - paid) === 0)
+            {
+            }
+            else
+            {
+            console.log("a");
+            a_event.title = 'You are responsible for the bill "' + bill.name + '"' + ' by this day for the amount of $' + 
+            (amount - paid) + ' to be paid to ' + bill.payTo;
+            a_event.start = new Date(y, m, d, 0, 0);
+            a_event.end = new Date(y, m, d, 22, 0);
+            a_event.allDay = true;
+            a_event.editable = false;
+            a_event.color = 'Orange';
+            return a_event;
+            }
+        }
 
     }
 

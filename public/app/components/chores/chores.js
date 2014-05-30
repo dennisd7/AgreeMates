@@ -339,7 +339,7 @@ function ($scope, $http, $timeout) {
   };
 
   $scope.format = function(date) {
-    return moment(date).format('MMMM Do, YYYY');
+    return moment(date).utc().format('MMMM Do, YYYY');
   };
 
   $scope.setList = function() {
@@ -362,7 +362,7 @@ function ($scope, $http, $timeout) {
     };
 
   $scope.today = function() {
-    return moment().format('YYYY-MM-DD');
+    return moment().utc().format('YYYY-MM-DD');
   };
 
   $scope.doChore = function(id, index)
