@@ -18,8 +18,8 @@ describe('agreemates homepage', function() {
     expect(homepage.welcome.getText()).to.eventually.equal('Welcome, Aengus!');
   });
 
-  it('has sidebar with ten links', function() {
-    expect(homepage.menuItems.count()).to.eventually.equal(10);
+  it('has sidebar with nine links', function() {
+    expect(homepage.menuItems.count()).to.eventually.equal(9);
   });
 
 });

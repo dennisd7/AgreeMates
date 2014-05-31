@@ -2,6 +2,10 @@
 
 A mobile-friendly web application designed to make living with roommates easier.
 
+| Develop | Master |
+| ------------ | ------------- |
+| [![Build Status](https://travis-ci.org/AgreeMates/AgreeMates.svg?branch=develop)](https://travis-ci.org/AgreeMates/AgreeMates) | [![Build Status](https://travis-ci.org/AgreeMates/AgreeMates.svg?branch=master)](https://travis-ci.org/AgreeMates/AgreeMates) |
+
 ## Team
 Aengus McMillin (aengusm@uw)  
 Amit Burstein (bursta@uw)  
