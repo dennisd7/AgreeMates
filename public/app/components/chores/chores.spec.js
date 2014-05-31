@@ -196,7 +196,6 @@ describe('chores module', function () {
 
       describe('get user', function () {
         it('should have correct id', function () {
-          console.log(scope.userId);
           expect(scope.userId).to.equal(3);
         });
         it('should have correct first name', function () {
