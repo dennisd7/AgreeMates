@@ -36,10 +36,8 @@ angular.module('main.bills').controller('BillsCtrl',
     $scope.deleteId = -1;
     //delete bill index
     $scope.deleteIdx = -1;
-
     //get request didn't return yet
     $scope.loaded = false;
-
 
     //get current user ID and name
     $http.get('/user').
@@ -335,7 +333,7 @@ angular.module('main.bills').controller('BillsCtrl',
     $scope.amountOwed = function(id, index) {
       for (var i = 0; i < $scope.bills[index].payments.length; i++) {
         if ($scope.bills[index].payments[i].userId == $scope.userId) {
-          return $scope.bills[index].payments[i].amount;
+          return $scope.showTwoDecimal($scope.bills[index].payments[i].amount);
         }
       };
       return 0;
@@ -407,12 +405,8 @@ angular.module('main.bills').controller('BillsCtrl',
     //split the bill amount evenly among all selected roommates
     $scope.splitBill = function() {
       var numRoommates = $scope.selectedRoommates.length;
-      var amount = Math.round(($scope.bill.total / numRoommates) * 100) / 100;
-
-      var evenly = true;
-      if (amount * numRoommates != $scope.bill.total) {
-        evenly = false;
-      }
+      var amount = Math.floor(($scope.bill.total / numRoommates) * 100) / 100;
+      var evenly = Math.floor(($scope.bill.total - amount * numRoommates) * 100);
 
       for (var i = 0; i < $scope.responsible.length; i++) {
         var responsible = false;
@@ -420,9 +414,10 @@ angular.module('main.bills').controller('BillsCtrl',
           if ($scope.selectedRoommates[j] == $scope.responsible[i].id) {
             responsible = true;
             $scope.responsible[i].amount = amount;
-            if (i == 0 && !evenly) {
+            if (evenly > 0) {
               $scope.responsible[i].amount += 0.01;
               $scope.responsible[i].amount = Math.round($scope.responsible[i].amount * 100) / 100;
+              evenly--;
             }
           }
         };
@@ -437,11 +432,7 @@ angular.module('main.bills').controller('BillsCtrl',
     $scope.splitBillEdit = function() {
       var numRoommates = $scope.selectedRoommates.length;
       var amount = Math.round(($scope.oldBill.amount / numRoommates) * 100) / 100;
-
-      var evenly = true;
-      if (amount * numRoommates != $scope.oldBill.amount) {
-        evenly = false;
-      }
+      var evenly = ($scope.bill.total - amount * numRoommates) * 100;
 
       for (var i = 0; i < $scope.updatedAmount.length; i++) {
         var responsible = false;
@@ -449,9 +440,10 @@ angular.module('main.bills').controller('BillsCtrl',
           if ($scope.selectedRoommates[j] == $scope.updatedAmount[i].userId) {
             responsible = true;
             $scope.updatedAmount[i].amount = amount;
-            if (i == 0 && !evenly) {
+            if (evenly > 0) {
               $scope.updatedAmount[i].amount += 0.01;
               $scope.updatedAmount[i].amount = Math.round($scope.updatedAmount[i].amount * 100) / 100;
+              evenly--;
             }
           }
         };
@@ -463,6 +455,7 @@ angular.module('main.bills').controller('BillsCtrl',
 
     //put the dollar sign in front of the balance
     $scope.showBalance = function(num) {
+      num = $scope.showTwoDecimal(num);
       if (num < 0) {
         num = num * -1;
         return '-$' + num;
@@ -542,6 +535,13 @@ angular.module('main.bills').controller('BillsCtrl',
       return false;
     }
 
+    $scope.showTwoDecimal = function(num) {
+      if (num % 1 === 0) {
+        return num;
+      }
+      return parseFloat(num).toFixed(2);
+    }
+
     $scope.convertDate = function(date) {
       return date.split('T')[0];
     };
@@ -552,7 +552,7 @@ angular.module('main.bills').controller('BillsCtrl',
 
     //formate the date
     $scope.format = function(date) {
-      return moment(date).format('MMMM Do, YYYY');
+      return moment(date).utc().format('MMMM Do, YYYY');
     };
 
     //show and hide an error msg

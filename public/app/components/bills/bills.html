@@ -106,7 +106,7 @@
 
 		<tr ng-repeat="bill in bills">
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{bill.name}}</td>
-			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{bill.amount}}</td>
+			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{showTwoDecimal(bill.amount)}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{amountOwed(bill.id, $index)}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{bill.payTo}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{format(bill.dueDate)}}</td>
@@ -222,9 +222,9 @@
 		</tr>
 		<tr ng-repeat="balance in balances">
 			<td>{{balance.first_name}} {{balance.last_name}}</td>
-			<td>${{balance.owedToUser}}</td>
-			<td></td>
-			<td>${{balance.userOwed}}</td>
+			<td>${{showTwoDecimal(balance.owedToUser)}}</td>	
+			<td></td>		
+			<td>${{showTwoDecimal(balance.userOwed)}}</td>
 			<td></td>
 			<td ng-class="{positiveBalance: balance.netBalance>0, negativeBalance: balance.netBalance<0}"><strong>{{showBalance(balance.netBalance)}}</strong></td>
 		</tr>
