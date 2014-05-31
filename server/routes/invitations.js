@@ -35,6 +35,7 @@ var Invitations = {
         var emails = req.body.emails;
         var apartmentName = apartment.attributes.name;
         var firstName = req.user.attributes.first_name;
+        var lastName = req.user.attributes.last_name;
         var invitations = [];
         for (var i = 0; i < emails.length; i++) {
           invitations[i] = Invitations.createInvitation(apartmentId, emails[i]);
@@ -50,7 +51,7 @@ var Invitations = {
               Invitations.saveHistory(apartmentId, historyString);
               var hashedId = hashids.encrypt(invitation.id);
               Invitations.sendInvitation(hashedId, invitation.email,
-                                         apartmentName, firstName);
+                                         apartmentName, firstName, lastName);
             });
             res.json(resp);
           }
@@ -168,7 +169,7 @@ var Invitations = {
       .then(function() {})
       .otherwise(function() {});
   },
-  sendInvitation: function(id, email, aptName, firstName) {
+  sendInvitation: function(id, email, aptName, firstName, lastName) {
     var smtpTransport = nodemailer.createTransport('SMTP', {
       service: 'Mandrill',
       auth: {
@@ -182,8 +183,8 @@ var Invitations = {
       subject: 'You have been invited to an AgreeMates apartment',
       generateTextFromHTML: true,
       html: 'Hi <br>' +
-            'You have been invited to join the apartment ' + aptName + ' on AgreeMates.com' +
-            'by ' + firstName +'! <br><br>' +
+            'You have been invited to join the apartment ' + aptName + ' on AgreeMates.com ' +
+            'by ' + firstName + ' ' + lastName + '! <br><br>' +
             'Click ' + '<a href="' + process.env.MANDRILL_INVURL + id + '">here</a> to join.<br><br>' +
             'The AgreeMates Team'
 
