@@ -138,6 +138,9 @@ angular.module('main.chores').controller('ChoresCtrl',
               any.id = $scope.responsibleList[i].id;
               chore.roommates.push(any.id);
             }
+            //fix heroku time zone bug
+            //chore.duedate = convert_to_EST(chore.duedate);
+            console.log(chore.duedate);
 
             $http.post('/chores', chore)
               .success(function(data) {
@@ -387,11 +390,10 @@ angular.module('main.chores').controller('ChoresCtrl',
     };
 
     $scope.emptyChoreList = function() {
-      if($scope.loaded && $scope.chores_uncompleted.length == 0 &&
-         $scope.chores_completed.length == 0) {
+      if($scope.loaded && $scope.chores_uncompleted.length == 0 && $scope.table === 'unresolved') {
         return true;
       } else {
-        if ($scope.table === 'resolved' && $scope.chores_completed == 0) {
+        if ($scope.table === 'resolved' && $scope.chores_completed.length == 0) {
             return true;
         }
         return false;
@@ -427,4 +429,31 @@ angular.module('main.chores').controller('ChoresCtrl',
       return (parseInt($scope.chore.interval) == 0);
     };
     //end all functions to control dynamic UI
+
+    //heroku time zone bugfix
+    function convert_to_EST(date) {
+      // create Date object for current location
+      var d = new Date(date);
+
+      var offset = -5.0;
+      // convert to msec
+      // add local time zone offset 
+      // get UTC time in msec
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+      return new Date(utc + (3600000*offset));
+    }
+
+    function convert_from_EST(date) {
+      var d = new Date(date);
+      
+      var offset = 5.0;
+
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+      return new Date(utc + (3600000*offset));
+    }
+
 });
+
+
