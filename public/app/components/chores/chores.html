@@ -24,8 +24,8 @@
         <div class="modal-body">
           <form class="form-horizontal" role="form" name="choreForm" ng-submit="">
             <div class="form-group">
-            <label class="col-sm-3 control-label" for="xone"> Name </label>
-            <div class="col-sm-5">
+            <label class="col-sm-3 control-label" for="xone">Chore Name</label>
+            <div class="col-sm-8">
               <div ng-class="{'has-error': choreForm.name.$dirty &amp;&amp; choreForm.name.$invalid}">
             <input type="text" id="xone" name="name" class="form-control" ng-model="chore.name" required>
               </div>
@@ -33,60 +33,74 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="xtwo">Frequency</label>
-                <div class="col-sm-5">
-                    <input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">&nbsp;One-Time
-                    <input type="radio" id="xtwo" name="interval" value="1" ng-model="chore.interval">&nbsp;Daily
-                    <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">&nbsp;Weekly
+                <div class="col-sm-8">
+                  <label class="radio-inline">
+                    <input type="radio" value="0" ng-model="chore.interval" required> One Time
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="1" ng-model="chore.interval" required> Daily
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="7" ng-model="chore.interval" required> Weekly
+                  </label>
                 </div>
               </div>
 
               <div class="form-group">
                 <label class ="col-sm-3 control-label" for="xfour">{{setModal(chore.interval)}} Date</label>
 
-                <div class = "col-sm-5">
+                <div class = "col-sm-8">
                 <input type="date" class="form-control" id="xfour" name="choredate" ng-model="chore.duedate" min="{{today()}}" required>
                 </div>
               </div>
 
-                <table >
-                <tr>
-                <th><label class="">People in Apartment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></th>
-                <th><label class="">Persons Responsible For Chore</label></th>
-                </tr>
+              <div class="col-sm-offset-3">
+                <table>
+                  <tr>
+                    <th style="width:175px;text-align:center"><label class="">Roommates</label></th>
+                    <th style="width:175px;text-align:center"><label class="">Responsible</label></th>
+                  </tr>
 
-                <td class = "testing">
-
-                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList"
+                  <td class="testing">
+                    <ul ui-sortable="sortableOptions" class="connectedList1 list-unstyled" ng-model="menuList"
                     ng-class="{'minimalList2':menuEmpty()}">
-                    <div ng-repeat="user in menuList" class="item">
-                    <span>{{user.first_name}}</span>
-                    </div>
+                      <li ng-repeat="user in menuList" class="item">
+                      <span>{{user.first_name}}</span>
+                      </li>
                     </ul>
-                </td>
+                  </td>
 
-                <td class = "testing">
-                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
-                    <div ng-repeat="responsible in responsibleList" class="item">
-                    <span>{{responsible.first_name}}</span>
-                    </div>
+                  <td class="testing">
+                    <ul ui-sortable="sortableOptions" class="connectedList1 list-unstyled" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
+                      <li ng-repeat="responsible in responsibleList" class="item">
+                      <span>{{responsible.first_name}}</span>
+                    </li>
                     </ul>
-                </td>
-                </tr>
+                  </td>
+                  </tr>
                 </table>
+              </div>
+
                 <div class="form-group" ng-class="{'hide': users_at_least_two()}">
                 <label class="col-sm-3 control-label" for="xfive">Rotating Responsibility?</label>
-                <div class="col-sm-5">
+                <div class="col-sm-8">
+                  <label class="radio-inline">
                     <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" ng-value="true" ng-click="setDefaultRotation()"> Yes
-                    <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" ng-value="false"> No
-
+                  </label>
+                    <label class="radio-inline">
+                      <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" ng-value="false"> No
+                    </label>
                 </div>
                 </div>
 
                 <div class ="form-group" ng-class ="{'hide': users_and_rotating()}">
-                    <label ng-class="{'hide': populate_rotation()}"> Pick a number in rotation </label>
-                    <span ng-repeat="option in rotation_number">
+                    <label class="col-sm-3 control-label" ng-class="{'hide': populate_rotation()}">Number in Rotation</label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline" ng-repeat="option in rotation_number">
                           <input type="radio" name="numbers" ng-model="chore.rotation_number" value="{{option}}"> {{option}}
-                    </span>
+                        </label>
+
+                    </div>
                 </div>
 
                 </form>
@@ -116,8 +130,8 @@
         <div class="modal-body">
           <form class="form-horizontal" role="form" name="choreForm" ng-submit="">
             <div class="form-group">
-            <label class="col-sm-3 control-label" for="xone"> Name </label>
-            <div class="col-sm-5">
+            <label class="col-sm-3 control-label" for="xone"> Chore Name </label>
+            <div class="col-sm-8">
               <div ng-class="{'has-error': choreForm.name.$dirty &amp;&amp; choreForm.name.$invalid}">
             <input type="text" id="xone" name="name" class="form-control" ng-model="chore.name" required>
               </div>
@@ -125,30 +139,37 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="xtwo">Frequency</label>
-                <div class="col-sm-5">
-                    <input type="radio" id="xtwo" name="interval" value="0" ng-model="chore.interval">&nbsp;One-Time
-                    <input type="radio" id="xtwo" name="interval" value="1" ng-model="chore.interval">&nbsp;Daily
-                    <input type="radio" id="xtwo" name="interval" value="7" ng-model="chore.interval">&nbsp;Weekly
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                      <input type="radio" value="0" ng-model="chore.interval" required> One Time
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" value="1" ng-model="chore.interval" required> Daily
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" value="7" ng-model="chore.interval" required> Weekly
+                    </label>
                 </div>
               </div>
 
               <div class="form-group">
                 <label class ="col-sm-3 control-label" for="xfour">{{setModal(chore.interval)}} Date</label>
 
-                <div class = "col-sm-5">
+                <div class = "col-sm-8">
                 <input type="date" class="form-control" id="xfour" name="choredate" ng-model="chore.duedate" min="{{today()}}" required>
                 </div>
               </div>
 
+              <div class="col-sm-offset-3">
                 <table >
                 <tr>
-                <th><label class="">People in Apartment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></th>
-                <th><label class="">Persons Responsible For Chore</label></th>
+                <th style="width:175px;text-align:center"><label class="">Roommates</label></th>
+                <th style="width:175px;text-align:center"><label class="">Responsible</label></th>
                 </tr>
 
                 <td class = "testing">
 
-                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="menuList"
+                    <ul ui-sortable="sortableOptions" class="connectedList1 list-unstyled" ng-model="menuList"
                     ng-class="{'minimalList2':menuEmpty()}">
                     <div ng-repeat="user in menuList" class="item">
                     <span>{{user.first_name}}</span>
@@ -157,7 +178,7 @@
                 </td>
 
                 <td class = "testing">
-                    <ul ui-sortable="sortableOptions" class="connectedList1" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
+                    <ul ui-sortable="sortableOptions" class="connectedList1 list-unstyled" ng-model="responsibleList" ng-class="{'minimalList':responsibleEmpty()}">
                     <div ng-repeat="responsible in responsibleList" class="item">
                     <span>{{responsible.first_name}}</span>
                     </div>
@@ -165,21 +186,29 @@
                 </td>
                 </tr>
                 </table>
+              </div>
                 <div class="form-group" ng-class="{'hide': users_at_least_two()}">
                 <label class="col-sm-3 control-label" for="xfive">Rotating Responsibility?</label>
-                <div class="col-sm-5">
+                <div class="col-sm-8">
+                  <label class="radio-inline">
                     <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" ng-value="true" ng-click="setDefaultRotation()"> Yes
+                  </label>
+                  <label class="radio-inline">
                     <input type="radio" id="xfive" name="rotating" ng-model="chore.rotating" ng-value="false"> No
+                  </label>
+
 
                 </div>
                 </div>
 
                 <div class ="form-group" ng-class ="{'hide': users_and_rotating()}">
-                    <div ng-class="{'hide': populate_rotation() || check_interval()}">
-                    <label> Pick a number in rotation </label>
-                    <span ng-repeat="option in rotation_number">
-                          <input type="radio" name="numbers" ng-model="chore.rotation_number" value="{{option}}"> {{option}}
-                    </span>
+                    <label class="col-sm-3 control-label" ng-class="{'hide': populate_rotation() || check_interval()}">Number in Rotation</label>
+                    <div class="col-sm-8">
+                      <label class="radio-inline" ng-repeat="option in rotation_number">
+                        <input type="radio" name="numbers" ng-model="chore.rotation_number" value="{{option}}"> {{option}}
+                      </label>
+
+                    
                     </div>
                 </div>
                 </form>

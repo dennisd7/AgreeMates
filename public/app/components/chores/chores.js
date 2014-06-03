@@ -87,7 +87,7 @@ angular.module('main.chores').controller('ChoresCtrl',
         $scope.table = 'unresolved';
 
         $scope.loaded = true;
-        $('.hide').removeClass('hide');
+        $('table.hide').removeClass('hide');
       })
       .error(function(error) {
         $scope.chores = $scope.chores_uncompleted;
@@ -173,7 +173,6 @@ angular.module('main.chores').controller('ChoresCtrl',
             $scope.chore.users = [];
 
             $scope.chore.users = angular.copy($scope.responsibleList);
-            console.log($scope.chore.users);
 
             $scope.chore.roommates = [];
             for (var i = 0; i < $scope.responsibleList.length; i++) {
@@ -205,9 +204,12 @@ angular.module('main.chores').controller('ChoresCtrl',
     $scope.deleteChore = function() {
       $http.delete('/chores/' + $scope.deleteId)
         .success(function(data) {
+          showSucc("Chore "+ $scope.chores[$scope.deleteIdx].name+" successfully deleted!");
           $scope.chores.splice($scope.deleteIdx, 1);
         })
-        .error(function() {});
+        .error(function(error) {
+          console.log(error);
+        });
     };
 
     $scope.cancel = function() {
@@ -291,7 +293,7 @@ angular.module('main.chores').controller('ChoresCtrl',
       if (interval == 0) {
         return 'Due';
       } else {
-        return 'Starting Due';
+        return 'Start';
       }
     };
 
@@ -371,7 +373,7 @@ angular.module('main.chores').controller('ChoresCtrl',
     $scope.prepareDelete = function(id, index) {
       $scope.deleteId = id;
       $scope.deleteIdx = index;
-      console.log(index);
+
     };
 
     //reset delete chore id and index
@@ -426,4 +428,3 @@ angular.module('main.chores').controller('ChoresCtrl',
     };
     //end all functions to control dynamic UI
 });
-

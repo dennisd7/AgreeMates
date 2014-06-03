@@ -312,7 +312,7 @@ describe('Chores', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2014-05-08'}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2013-05-08'}};
 			var req3 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2013-06-08'}};
-			resMock.expects('json').thrice().withArgs(400, {error: 'Invalid due date'});
+			resMock.expects('json').thrice().withArgs(400, {error: 'Invalid due date.'});
 			chores.addChore(req1, res);
 			chores.addChore(req2, res);
 			chores.addChore(req3, res);
@@ -320,14 +320,14 @@ describe('Chores', function(){
 
 		it('should return 400 if the users assigned to the chore are invalid', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08'}};
-			resMock.expects('json').once().withArgs(400, {error: 'Invalid users assigned to chore'});
+			resMock.expects('json').once().withArgs(400, {error: 'Invalid users assigned to chore.'});
 			chores.addChore(req1,res);
 		});
 
 		it('should return 400 if number_in_rotation is not an int', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: .5}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: undefined}};
-			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number in chore rotation'});
+			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number in chore rotation.'});
 			chores.addChore(req1, res);
 			chores.addChore(req2, res);
 		});
@@ -335,7 +335,7 @@ describe('Chores', function(){
 		it('should return 400 if rotating chore and number_in_rotation less than zero', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1],number_in_rotation: 0, rotating: true}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1],number_in_rotation: -1, rotating: true}};
-			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number assigned per week'});
+			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number assigned per week.'});
 			chores.addChore(req1,res);
 			chores.addChore(req2, res);
 		});
@@ -343,7 +343,7 @@ describe('Chores', function(){
 		it('should return 503 if a database error occurs when creating the chore', function(){
 			var req1 = {user: {attributes: {apartment_id: 1}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1],number_in_rotation: 1, rotating: true}};
 			createChoreStub = failTripleStub('createChore',null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.addChore(req1,res);
 			expect(createChoreStub).to.have.been.calledWith();
 			createChoreStub.restore();
@@ -352,7 +352,7 @@ describe('Chores', function(){
 		it('should return 503 if there was a problem saving users to the chore', function(){
 			var req1 = {user: {attributes: {apartment_id: 1}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1,2],number_in_rotation: 1, rotating: true}};
 			createChoreStub = succeedTripleStub('createChore',choreModel,[1]);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.addChore(req1,res);
 			expect(createChoreStub).to.have.been.calledWith();
 			createChoreStub.restore();
@@ -362,7 +362,7 @@ describe('Chores', function(){
 			var req1 = {user: {attributes: {apartment_id: 1, first_name: 'Gibbs', last_name: 'Simon'}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1,2],number_in_rotation: 1, rotating: true}};
 			createChoreStub = succeedTripleStub('createChore',choreModel,[1,2]);
 			addHistoryStub = failDoubleStub('addHistory', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.addChore(req1,res);
 			expect(createChoreStub).to.have.been.calledWith();
 			expect(addHistoryStub).to.have.been.calledWith(choreModel, 'Gibbs Simon added chore dishes');
@@ -374,7 +374,7 @@ describe('Chores', function(){
 			var req1 = {user: {attributes: {apartment_id: 1, first_name: 'Gibbs', last_name: 'Simon'}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1,2],number_in_rotation: 1, rotating: true}};
 			createChoreStub = succeedTripleStub('createChore',choreModel,[1,2]);
 			addHistoryStub = succeedDoubleStub('addHistory', null);
-			resMock.expects('send').once().withArgs(200, {chore: choreModel.attributes, users: [1,2]});
+			resMock.expects('json').once().withArgs({chore: choreModel.attributes, users: [1,2]});
 			chores.addChore(req1,res);
 			expect(createChoreStub).to.have.been.calledWith();
 			expect(addHistoryStub).to.have.been.calledWith(choreModel, 'Gibbs Simon added chore dishes');
@@ -422,7 +422,7 @@ describe('Chores', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2014-05-08'},params: {chore: 3}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2013-05-08'},params: {chore: 3}};
 			var req3 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2013-06-08'},params: {chore: 3}};
-			resMock.expects('json').thrice().withArgs(400, {error: 'Invalid due date'});
+			resMock.expects('json').thrice().withArgs(400, {error: 'Invalid due date.'});
 			chores.editChore(req1, res);
 			chores.editChore(req2, res);
 			chores.editChore(req3, res);
@@ -449,14 +449,14 @@ describe('Chores', function(){
 
 		it('should return 400 if the roommates are invalid', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08'},params: {chore: 3}};
-			resMock.expects('json').once().withArgs(400, {error: 'Invalid users assigned to chore'});
+			resMock.expects('json').once().withArgs(400, {error: 'Invalid users assigned to chore.'});
 			chores.editChore(req1,res);
 		});
 
 		it('should return 400 if number_in_rotation is not an int', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: .5},params: {chore: 3}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: undefined},params: {chore: 3}};
-			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number in chore rotation'});
+			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number in chore rotation.'});
 			chores.editChore(req1, res);
 			chores.editChore(req2, res);
 		});
@@ -464,7 +464,7 @@ describe('Chores', function(){
 		it('should return 400 if rotating chore and number_in_rotation less than zero', function(){
 			var req1 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1],number_in_rotation: 0, rotating: true},params: {chore: 3}};
 			var req2 = {user: {attributes: {}}, body: {name: 'test', interval: 0, duedate: '2020-05-08', roommates: [1],number_in_rotation: -1, rotating: true},params: {chore: 3}};
-			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number assigned per week'});
+			resMock.expects('json').twice().withArgs(400, {error: 'Invalid number assigned per week.'});
 			chores.editChore(req1,res);
 			chores.editChore(req2, res);
 		});
@@ -472,7 +472,7 @@ describe('Chores', function(){
 		it('should return 503 if there is a database error when creating the chore', function(){
 			var req1 = {user:{attributes:{apartment: 1}}, body: {name: 'chore', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: 1, rotating: true},params: {chore: 3}};
 			patchChoreStub = failingStub('patchChore', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.editChore(req1, res);
 			expect(patchChoreStub).to.have.been.calledWith();
 			patchChoreStub.restore();
@@ -482,7 +482,7 @@ describe('Chores', function(){
 			var req1 = {user:{attributes:{apartment_id: 1}}, body: {name: 'chore', interval: 0, duedate: '2020-05-08', roommates: [1], number_in_rotation: 1, rotating: true},params: {chore: 3}};
 			patchChoreStub = succeedingStub('patchChore', choreModel);
 			unassignUsersStub = failingStub('unassignUsers', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.editChore(req1, res);
 			expect(patchChoreStub).to.have.been.calledWith();
 			expect(unassignUsersStub).to.have.been.calledWith(3);
@@ -495,7 +495,7 @@ describe('Chores', function(){
 			patchChoreStub = succeedingStub('patchChore', choreModel);
 			unassignUsersStub = succeedingStub('unassignUsers', null);
 			assignUsersStub = failingStub('assignUsers',null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.editChore(req1, res);
 			expect(patchChoreStub).to.have.been.calledWith();
 			expect(unassignUsersStub).to.have.been.calledWith(3);
@@ -511,7 +511,7 @@ describe('Chores', function(){
 			unassignUsersStub = succeedingStub('unassignUsers', null);
 			assignUsersStub = succeedingStub('assignUsers',[1]);
 			addHistoryStub = failDoubleStub('addHistory', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.editChore(req1, res);
 			expect(patchChoreStub).to.have.been.calledWith(newChore);
 			expect(unassignUsersStub).to.have.been.calledWith(3);
@@ -588,7 +588,7 @@ describe('Chores', function(){
 		it('should return 400 if the chore id is invalid', function(){
 			var req1 = {body: {apartment_id: 1, id: -3, user_id: 10}};
 			var req2 = {body: {apartment_id: 1, id: 2.5, user_id: 10}};
-			resMock.expects('json').twice().withArgs(400,{error: 'Invalid chore id'});
+			resMock.expects('json').twice().withArgs(400,{error: 'Invalid chore ID.'});
 			chores.completeChore(req1,res);
 			chores.completeChore(req2,res);
 		});
@@ -596,7 +596,7 @@ describe('Chores', function(){
 		it('should return 503 if database error in fetching the chore', function(){
 			var req1 = {body: {apartment_id: 1, id: 2, user_id: 10}};
 			fetchChoreStub = failDoubleStub('fetchChore', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			fetchChoreStub.restore();
@@ -614,7 +614,7 @@ describe('Chores', function(){
 				}
 			};
 			fetchChoreStub = succeedDoubleStub('fetchChore', chore);
-			resMock.expects('json').once().withArgs(400, {error: 'Chore is already complete'});
+			resMock.expects('json').once().withArgs(400, {error: 'Chore is already complete.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			fetchChoreStub.restore();
@@ -637,7 +637,7 @@ describe('Chores', function(){
 			};
 			fetchChoreStub = succeedDoubleStub('fetchChore', chore);
 			markChoreCompleteStub = failingStub('markChoreComplete',null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -673,7 +673,7 @@ describe('Chores', function(){
 			fetchChoreStub = succeedDoubleStub('fetchChore', chore);
 			markChoreCompleteStub = succeedingStub('markChoreComplete',null);
 			addHistoryStub = failDoubleStub('addHistory', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -716,7 +716,7 @@ describe('Chores', function(){
 			fetchChoreStub = succeedDoubleStub('fetchChore', choreModel);
 			markChoreCompleteStub = succeedingStub('markChoreComplete',null);
 			fetchAssignedUsersStub = failingStub('fetchAssignedUsers', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -737,7 +737,7 @@ describe('Chores', function(){
 			markChoreCompleteStub = succeedingStub('markChoreComplete',null);
 			fetchAssignedUsersStub = succeedingStub('fetchAssignedUsers', user_chore);
 			createChoreStub = failTripleStub('createChore',null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -760,7 +760,7 @@ describe('Chores', function(){
 			markChoreCompleteStub = succeedingStub('markChoreComplete',null);
 			fetchAssignedUsersStub = succeedingStub('fetchAssignedUsers', user_chore);
 			createChoreStub = succeedTripleStub('createChore',choreModel,[1,2]);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -783,7 +783,7 @@ describe('Chores', function(){
 			fetchAssignedUsersStub = succeedingStub('fetchAssignedUsers', user_chore);
 			createChoreStub = succeedTripleStub('createChore',choreModel,[10]);
 			addHistoryStub = failDoubleStub('addHistory', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -808,7 +808,7 @@ describe('Chores', function(){
 			fetchAssignedUsersStub = succeedingStub('fetchAssignedUsers', user_chore);
 			createChoreStub = succeedTripleStub('createChore',choreModel,[10]);
 			addHistoryStub = succeedDoubleStub('addHistory', null);
-			resMock.expects('send').once().withArgs(200, {chore: choreModel.attributes, users: [10]});
+			resMock.expects('json').once().withArgs({chore: choreModel.attributes, users: [10]});
 			chores.completeChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1,2);
 			expect(markChoreCompleteStub).to.have.been.calledWith(2);
@@ -846,7 +846,7 @@ describe('Chores', function(){
 		it('should return 503 if database error in fetching chore', function(){
 			var req1 = {user: {attributes: {apartment_id: 1}}, params:{chore: 4}};
 			fetchChoreStub = failDoubleStub('fetchChore', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.deleteChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1);
 			fetchChoreStub.restore();
@@ -858,7 +858,7 @@ describe('Chores', function(){
 			var req1 = {user: {attributes: {apartment_id: 1}}, params:{chore: 4}};
 			fetchChoreStub = succeedDoubleStub('fetchChore', 4);
 			unassignUsersStub = failingStub('unassignUsers', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.deleteChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1);
 			expect(unassignUsersStub).to.have.been.calledWith(4);
@@ -871,7 +871,7 @@ describe('Chores', function(){
 			fetchChoreStub = succeedDoubleStub('fetchChore', null);
 			unassignUsersStub = succeedingStub('unassignUsers', null);
 			removeChoreStub = failDoubleStub('removeChore', null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.deleteChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1);
 			expect(unassignUsersStub).to.have.been.calledWith(4);
@@ -890,7 +890,7 @@ describe('Chores', function(){
 			unassignUsersStub = succeedingStub('unassignUsers', null);
 			removeChoreStub = succeedDoubleStub('removeChore', null);
 			addHistoryStub = failDoubleStub('addHistory',null);
-			resMock.expects('json').once().withArgs(503, {error: 'Database error'});
+			resMock.expects('json').once().withArgs(503, {error: 'Database error.'});
 			chores.deleteChore(req1,res);
 			expect(fetchChoreStub).to.have.been.calledWith(1);
 			expect(unassignUsersStub).to.have.been.calledWith(4);
@@ -898,8 +898,8 @@ describe('Chores', function(){
 			expect(addHistoryStub).to.have.been.calledWith(choreModel,'Greg Knickels deleted chore dishes');
 			fetchChoreStub.restore();
 			unassignUsersStub.restore();
-			removeChoreStub.restore();
 			addHistoryStub.restore();
+			removeChoreStub.restore();
 		});
 
 		it('should return 200 if chore is removed and history recorded properly', function(){

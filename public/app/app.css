@@ -306,6 +306,11 @@ html, body {
   padding-top: 0;
 }
 
+.connectedList1 .item:hover {
+  cursor: pointer;
+  cursor: hand;
+}
+
 .comments {
   margin-top: 20px;
 }
@@ -313,8 +318,7 @@ html, body {
 /*classes for rotating responsiblity chores input UI*/
 .item, .placeholder {
   vertical-align: top;
-  text-align: left;
-  font-weight: 700;
+  text-align: center;
 }
 
 .placeholder {

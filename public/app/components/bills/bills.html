@@ -23,7 +23,7 @@
         <form class="form-horizontal" role="form" name="addBillForm">
   	      <div class="modal-body">
   			      <div class="form-group">
-  			        <label class="col-sm-2 control-label">Name</label>
+  			        <label class="col-sm-2 control-label">Bill Name</label>
   			        <div class="col-sm-6">
                   <div ng-class="{'has-error': addBillForm.name.$dirty &amp;&amp; addBillForm.name.$invalid}">
                     <input type="text" class="form-control" name="name" ng-model="bill.name" required>
@@ -106,7 +106,7 @@
 
 		<tr ng-repeat="bill in bills">
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{bill.name}}</td>
-			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{bill.amount}}</td>
+			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{showTwoDecimal(bill.amount)}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">${{amountOwed(bill.id, $index)}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{bill.payTo}}</td>
 			<td data-toggle="modal" data-target="#editModal" ng-click="prepareUpdate(bill.id, $index)">{{format(bill.dueDate)}}</td>
@@ -145,7 +145,7 @@
 	      <div class="modal-body">
 		    <form class="form-horizontal" role="form" name="editBillForm">
 		      <div class="form-group">
-		        <label class="col-sm-2 control-label">Name</label>
+		        <label class="col-sm-2 control-label">Bill Name</label>
 		        <div class="col-sm-6">
 		        	<div ng-class="{'has-error': editBillForm.name.$invalid}">
               	<input type="text" class="form-control" name="name" ng-model="oldBill.name" required>
@@ -177,7 +177,7 @@
 				    </label>
 				    <label class="radio-inline">
 				      <input type="radio" name="frequency" value="3" ng-model="oldBill.frequency">Monthly
-				    </label>  
+				    </label>
 		        </div>
 		      </div>
 
@@ -214,17 +214,17 @@
 	<table ng-hide="table=='resolved' || emptyBillList()" class="table table-hover table-striped text-center hide">
 		<tr>
 			<th class="text-center">Roommate</th>
-			<th class="text-center">They Owe</th>	
-			<th>&ndash;</th>		
+			<th class="text-center">They Owe</th>
+			<th>&ndash;</th>
 			<th class="text-center">You Owe</th>
 			<th>=</th>
 			<th class="text-center">Balance</th>
 		</tr>
 		<tr ng-repeat="balance in balances">
 			<td>{{balance.first_name}} {{balance.last_name}}</td>
-			<td>${{balance.owedToUser}}</td>	
+			<td>${{showTwoDecimal(balance.owedToUser)}}</td>	
 			<td></td>		
-			<td>${{balance.userOwed}}</td>
+			<td>${{showTwoDecimal(balance.userOwed)}}</td>
 			<td></td>
 			<td ng-class="{positiveBalance: balance.netBalance>0, negativeBalance: balance.netBalance<0}"><strong>{{showBalance(balance.netBalance)}}</strong></td>
 		</tr>

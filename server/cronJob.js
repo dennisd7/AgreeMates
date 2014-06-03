@@ -4,7 +4,7 @@
 
 var CronJob = require('cron').CronJob;
 var Bookshelf = require('bookshelf');
-var ChoreDao = require('./routes/choreDao');
+var Chores = require('./routes/chores');
 
 var choreUpdator = new CronJob('0 59 23 * * *', function(){
 	var startDate = new Date();
@@ -39,7 +39,7 @@ var choreUpdator = new CronJob('0 59 23 * * *', function(){
 					}
 					users[j] = users_chores[j].user_id;
 				}
-				ChoreDao.createChore(chore, users, orderIndex, function(){
+				Chores.createChore(chore, users, orderIndex, function(){
 				}, function(){
 					console.error('Chore Cron Job: Error looking up chores');
 				});
@@ -51,7 +51,7 @@ var choreUpdator = new CronJob('0 59 23 * * *', function(){
 	});
   }, function () {
     // This function is executed when the job stops
-	console.log('Chore Cron Job: Cron complete')
+	console.log('Chore Cron Job: Cron complete successfully')
   },
   true, /* Start the job right now */
   null /* Time zone of this job. */

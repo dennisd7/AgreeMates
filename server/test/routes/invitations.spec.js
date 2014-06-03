@@ -171,7 +171,7 @@ describe('Invitations', function() {
       var saveHistoryStub = emptyStub('saveHistory');
 
       var req = {body: {emails: ['test1@example.com', 'test2@example.com']},
-                 user: {attributes: {apartment_id: 1}}};
+                 user: {attributes: {apartment_id: 1, first_name: 'Test', last_name: 'User'}}};
 
       resMock.expects('json').once().
         withArgs([{email: 'test1@example.com', id: 1},
@@ -180,9 +180,9 @@ describe('Invitations', function() {
       invitations.addInvitations(req, res);
 
       expect(sendInvitationStub).to.have.been.
-        calledWith(hashids.encrypt(1), 'test1@example.com', 'test apartment');
+        calledWith(hashids.encrypt(1), 'test1@example.com', 'test apartment', 'Test', 'User');
       expect(sendInvitationStub).to.have.been.
-        calledWith(hashids.encrypt(2), 'test2@example.com', 'test apartment');
+        calledWith(hashids.encrypt(2), 'test2@example.com', 'test apartment', 'Test', 'User');
 
       fetchApartmentStub.restore();
       saveInvitationsStub.restore();

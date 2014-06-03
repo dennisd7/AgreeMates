@@ -19,5 +19,15 @@ exports.config = {
 
   mochaOpts: {
     reporter: 'list'
+  },
+
+  baseUrl: 'http://localhost:3000',
+
+  onPrepare: function() {
+    browser.driver.get('http://localhost:3000');
+    browser.driver.findElement(by.css('.ion-social-facebook')).click();
+    browser.driver.findElement(by.id('email')).sendKeys(process.env.FB_TEST_EMAIL);
+    browser.driver.findElement(by.id('pass')).sendKeys(process.env.FB_TEST_PASS);
+    browser.driver.findElement(by.id('u_0_1')).click();
   }
 };

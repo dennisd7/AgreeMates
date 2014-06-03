@@ -41,14 +41,6 @@ describe('Main', function() {
       main.getIndex(req, res);
     });
 
-    it('should use a placeholder image if google_id is defined', function() {
-      var req = {user: {attributes: {apartment_id: 1, facebook_id: null,
-        google_id: 1, first_name: 'first'}}};
-      resMock.expects('render').once().withArgs('index', {firstname: 'first',
-        profile_pic: 'img/default.png'});
-      main.getIndex(req, res);
-    });
-
     it('should use placeholder image if IDs are undefined', function() {
       var req = {user: {attributes: {apartment_id: 1, facebook_id: null,
         google_id: null, first_name: 'first'}}};

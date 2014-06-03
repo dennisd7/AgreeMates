@@ -1,19 +1,25 @@
 'use strict';
+// jshint maxlen: false
+// jshint undef: false
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 describe('agreemates homepage', function() {
-  it('shows login page', function() {
-    browser.driver.get('http://localhost:3000');
+  var homepage = require('./site.page.js');
 
-    var loginTitle = browser.driver.findElement(by.id('login-title'));
-    var loginDescription = browser.driver.findElement(by.id('login-description'));
-
-    expect(loginTitle.getText()).to.eventually.equal('AgreeMates');
-    expect(loginDescription.getText()).to.eventually.equal('Make living with roommates easier.');
+  beforeEach(function() {
+    homepage.get();
   });
+
+  it('greets logged in user', function() {
+    expect(homepage.welcome.getText()).to.eventually.equal('Welcome, Aengus!');
+  });
+
+  it('has sidebar with nine links', function() {
+    expect(homepage.menuItems.count()).to.eventually.equal(9);
+  });
+
 });
