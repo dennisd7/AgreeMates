@@ -173,7 +173,6 @@ angular.module('main.chores').controller('ChoresCtrl',
             $scope.chore.users = [];
 
             $scope.chore.users = angular.copy($scope.responsibleList);
-            console.log($scope.chore.users);
 
             $scope.chore.roommates = [];
             for (var i = 0; i < $scope.responsibleList.length; i++) {
@@ -374,7 +373,7 @@ angular.module('main.chores').controller('ChoresCtrl',
     $scope.prepareDelete = function(id, index) {
       $scope.deleteId = id;
       $scope.deleteIdx = index;
-      console.log(index);
+
     };
 
     //reset delete chore id and index
