@@ -40,18 +40,11 @@ function isValidDate(date) {
   currentDate.setMinutes(0);
   currentDate.setSeconds(0);
   currentDate.setMilliseconds(0);
-  date = new Date(date);
   return date >= currentDate;
 }
 //increment date by interval days
 function incrementDate(dat, days) {
   return dat.setDate(dat.getDate() + days);
-}
-
-function parseDate(input) {
-  var parts = input.split('-');
-  // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
-  return new Date(parts[0], parts[1] - 1, parts[2]); // Note: months are 0-based
 }
 
 var Chores = {
@@ -138,7 +131,7 @@ var Chores = {
 	name = name;
     var apartmentId = req.user.attributes.apartment_id;
     var userId = req.user.attributes.id;
-    var dueDate = parseDate(req.body.duedate);
+    var dueDate = new Date(req.body.duedate);
     var createDate = new Date();
 
     var interval = req.body.interval;
@@ -374,7 +367,7 @@ var Chores = {
     var apartmentId = req.user.attributes.apartment_id;
     var choreId = req.params.chore;
     var name = req.body.name;
-    var dueDate = parseDate(req.body.duedate);
+    var dueDate = new Date(req.body.duedate);
     var roommates = req.body.roommates;
     var interval = req.body.interval;
     var rotating = req.body.rotating;

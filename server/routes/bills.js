@@ -496,7 +496,6 @@ var Bills = {
     // Need to increment the day the bill is due
     // due to format received from front end
     var duedate = new Date(req.body.date);
-    duedate.setDate(duedate.getDate() + 1);
 
     // Build up the bill model
     return new BillModel({apartment_id: apartment_id, user_id: user_id,
