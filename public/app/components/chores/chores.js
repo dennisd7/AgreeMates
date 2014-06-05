@@ -357,7 +357,7 @@ angular.module('main.chores').controller('ChoresCtrl',
             chore.users = data.users;
             $scope.chores[index] = chore;
             temp.completed = true;
-            $scope.chores_completed.push(temp);
+            $scope.chores_completed.unshift(temp);
           }
         }).error(function(data){
           console.log(data);
